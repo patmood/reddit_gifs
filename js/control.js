@@ -27,6 +27,7 @@ $(document).ready(function(){
   }
 
   function loadGif(gifData){
+    if (!gifData) return
     $('#huge').html($('<img/>').attr("src", gifData.url));
     $('#title').html(gifData.title)
     console.log(gifPos);
