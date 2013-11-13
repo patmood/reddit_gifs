@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="jquery.min.js"></script>
+  <style>
+    button {
+      border: none;
+      background: #34495e;
+      color: #fff;
+      cursor: pointer;
+      padding: 10px 15px;
+      display: inline-block;
+      margin: 15px 15px;
+      outline: none;
+      position: relative;
+      box-shadow: 0 6px #2c3e50;
+      border-radius: 10px;
+    }
+    #huge {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+    }
+    #huge img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      min-width: 50%;
+      min-height: 50%;
+    }
+
+  </style>
+</head>
+<body>
+
+
+<div id="huge">
+  <!-- <img src="http://i.imgur.com/hHbCLCA.gif"> -->
+  <h1>LOADING...</h1>
+</div>
+<div><h1>Hello!</h1></div>
+<div><button>Hello</button></div>
+
+<script>
+  $('#huge').click(function(){ loadGif(++gifPos); });
+
+  var gifList = [];
+  var gifPos = 0;
+  fetchGifs();
+
+  function fetchGifs(source){
+    if(typeof(source)==='undefined') source = 'http://www.reddit.com/r/gif/.json?jsonp=?';
+    $.getJSON(source, function(data) {
+        $.each(data.data.children, function(i,item){
+            if (item.data.url.match(/\.gif$/ig)){
+              gifList.push({
+                id: item.data.id,
+                url: item.data.url,
+                title: item.data.title,
+                permalink: item.data.permalink
+              });
+            }
+        });
+        gifPos = 0;
+        $('#huge').html($('<img/>').attr("src", gifList[gifPos].url));
+        console.log(gifList);
+    });
+  }
+
+  function loadGif(gifData){
+    $('#huge').html($('<img/>').attr("src", gifList[gifData].url));
+    if (gifPos >= gifList.length-5){ getMoreGifs }
+  }
+
+  function getMoreGifs(){
+
+  }
+
+  // keyboard controls
+  $(document).keydown(function(e){
+    var key = e.which
+
+    // arrow keys
+    if(key === 32) loadGif(++gifPos) // space
+    else if (key === 39) loadGif(++gifPos) // right
+    else if (key === 37) loadGif(--gifPos) // left
+    // else if (key === 38) vote("up") // up
+    // else if (key === 40) vote("down") // down
+  })
+
+</script>
+</body>
+</html>
