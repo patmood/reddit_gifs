@@ -53,5 +53,5 @@ button {
   padding: 5px;
 }
 @media screen and (min-width: 0px) and (max-width: 800px) {
-  #next { display: none; };
+  #next,#prev,#subreddit { display: none; };
 }
