@@ -7,7 +7,7 @@ $(document).ready(function(){
   var gifList = [];
   var gifPos = 0;
   var defaultSource = 'http://www.reddit.com/r/gif/.json?';
-  var fetchReddit = $('#subreddit').val();
+  var fetchReddit = 'gif';
   var fetchLimit = 100;
   var fetchAfter = '';
   var fetching = false;
@@ -18,13 +18,15 @@ $(document).ready(function(){
     fetchReddit = $(this).val().replace(/(\/r\/)|(r\/)|(\/)/ig,'');
   })
 
-  function fetchGifs(source){
+  function fetchGifs(){
+    console.log("Getting more gifs from",fetchReddit,"...")
     var errorTimeout = setTimeout(function(){
       alert('No gifs found for the subreddit "',fetchReddit,'"');
+      fetchReddit = 'gif'
     }, 5000);
-    if(typeof(source)==='undefined') source = defaultSource;
+    var source = 'http://www.reddit.com/r/'+fetchReddit+'/.json?limit='+fetchLimit+'&after='+fetchAfter+'&jsonp=?'
     fetching = true;
-    $.getJSON(source+'&jsonp=?', function(data) {
+    $.getJSON(source, function(data) {
       clearTimeout(errorTimeout);
       $.each(data.data.children, function(i,item){
           if (item.data.url.match(/\.gif$/ig)){
@@ -37,7 +39,7 @@ $(document).ready(function(){
           }
       });
       fetchAfter = data.data.after;
-      if (gifPos === 0) loadGif(gifList[gifPos]);
+      if (gifPos === 0) loadGif(gifList[0]);
       fetching = false;
       console.log(gifList);
     });
@@ -48,13 +50,7 @@ $(document).ready(function(){
     $('#huge').html($('<img/>').attr("src", gifData.url));
     $('#title').html(gifData.title)
     console.log(gifPos);
-    if (gifPos >= gifList.length-5 && !fetching) getMoreGifs();
-  }
-
-  function getMoreGifs(){
-    var nextSource = 'http://www.reddit.com/r/'+fetchReddit+'/.json?limit='+fetchLimit+'&after='+fetchAfter;
-    console.log("Get more gifs now...")
-    fetchGifs(nextSource);
+    if (gifPos >= gifList.length-5 && !fetching) fetchGifs();
   }
 
   function nextGif(){
