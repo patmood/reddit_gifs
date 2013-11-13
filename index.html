@@ -20,6 +20,7 @@
     }
     #huge {
       position: fixed;
+      z-index: -1;
       top: -50%;
       left: -50%;
       width: 200%;
@@ -27,6 +28,7 @@
     }
     #huge img {
       position: absolute;
+      z-index: -1;
       top: 0;
       left: 0;
       right: 0;
@@ -41,12 +43,12 @@
 <body>
 
 
+<div><h1>Hello!</h1></div>
+<div><button>Next</button></div>
+
 <div id="huge">
-  <!-- <img src="http://i.imgur.com/hHbCLCA.gif"> -->
   <h1>LOADING...</h1>
 </div>
-<div><h1>Hello!</h1></div>
-<div><button>Hello</button></div>
 
 <script>
   $('#huge').click(function(){ loadGif(++gifPos); });
