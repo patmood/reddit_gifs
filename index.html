@@ -44,8 +44,7 @@
               });
             }
         });
-        gifPos = 0;
-        $('#huge').html($('<img/>').attr("src", gifList[gifPos].url));
+        if (gifPos === 0) loadGif(gifPos);
         console.log(gifList);
     });
   }
@@ -53,11 +52,12 @@
   function loadGif(gifData){
     $('#huge').html($('<img/>').attr("src", gifList[gifData].url));
     $('#title').html(gifList[gifData].title)
-    if (gifPos >= gifList.length-5){ getMoreGifs }
+    console.log(gifPos);
+    if (gifPos >= gifList.length-15) getMoreGifs();
   }
 
   function getMoreGifs(){
-
+    alert("Get more gifs now")
   }
 
   // keyboard controls
