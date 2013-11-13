@@ -17,6 +17,7 @@ $(document).ready(function(){
   $('#subreddit').on('change', function(){
     fetchReddit = $(this).val().replace(/(\/r\/)|(r\/)|(\/)/ig,'');
     gifList.length = gifPos-1;
+    console.log("List length:",gifList.length);
     fetchGifs();
   })
 
@@ -44,6 +45,7 @@ $(document).ready(function(){
       if (gifPos === 0) loadGif(gifList[0]);
       fetching = false;
       console.log(gifList);
+      console.log("List length:",gifList.length);
     });
   }
 
