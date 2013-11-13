@@ -6,8 +6,7 @@ $(document).ready(function(){
 
   var gifList = [];
   var gifPos = 0;
-  var defaultSource = 'http://www.reddit.com/r/gif/.json?';
-  var fetchReddit = 'gif';
+  var fetchReddit = 'gifs';
   var fetchLimit = 25;
   var fetchAfter = '';
   var fetching = false;
