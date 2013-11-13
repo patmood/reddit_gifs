@@ -39,14 +39,19 @@
       z-index: 99;
       position: relative;
     }
+    #title {
+      color: #fff;
+      font-size: 36px;
+    }
 
   </style>
 </head>
 <body>
 
 <div class="overlay">
-  <div><h1>Hello!</h1></div>
-  <div><button>Next</button></div>
+  <div id="title">Reddit Gifs!</div>
+  <div id="next"><button>Next</button></div>
+  <div id="prev"><button>Previous</button></div>
 </div>
 
 <div id="huge">
@@ -55,6 +60,8 @@
 
 <script>
   $('#huge').click(function(){ loadGif(++gifPos); });
+  $('#next').click(function(){ loadGif(++gifPos); });
+  $('#prev').click(function(){ loadGif(--gifPos); });
 
   var gifList = [];
   var gifPos = 0;
@@ -81,6 +88,7 @@
 
   function loadGif(gifData){
     $('#huge').html($('<img/>').attr("src", gifList[gifData].url));
+    $('#title').html(gifList[gifData].title)
     if (gifPos >= gifList.length-5){ getMoreGifs }
   }
 
