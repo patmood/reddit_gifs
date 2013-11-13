@@ -1,0 +1,45 @@
+#huge {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+}
+#huge img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%;
+}
+button {
+  border: none;
+  background: #34495e;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 10px 5px;
+  outline: none;
+  position: relative;
+  box-shadow: 0 6px #2c3e50;
+  border-radius: 10px;
+  vertical-align: top;
+}
+.overlay {
+  z-index: 99;
+  position: relative;
+  margin-top: 0px;
+  width: 100%;
+  background-color: rgba(54,54,54,0.5);
+}
+#prev { display: inline-block; }
+#next { display: inline-block; }
+#title {
+  color: #fff;
+  font-size: 36px;
+  display: inline-block;
+  padding: 5px;
+}

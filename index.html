@@ -4,54 +4,15 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <style>
-    button {
-      border: none;
-      background: #34495e;
-      color: #fff;
-      cursor: pointer;
-      padding: 10px 15px;
-      display: inline-block;
-      margin: 15px 15px;
-      outline: none;
-      position: relative;
-      box-shadow: 0 6px #2c3e50;
-      border-radius: 10px;
-    }
-    #huge {
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-    }
-    #huge img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      min-width: 50%;
-      min-height: 50%;
-    }
-    .overlay {
-      z-index: 99;
-      position: relative;
-    }
-    #title {
-      color: #fff;
-      font-size: 36px;
-    }
-
-  </style>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="overlay">
+  <button id="next" >Next</button>
+  <button id="prev" >Previous</button>
   <div id="title">Reddit Gifs!</div>
-  <div id="next"><button>Next</button></div>
-  <div id="prev"><button>Previous</button></div>
 </div>
 
 <div id="huge">
