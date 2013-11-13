@@ -37,7 +37,7 @@ $(document).ready(function(){
               id: item.data.id,
               url: url,
               title: item.data.title,
-              permalink: item.data.permalink
+              permalink: 'http://reddit.com'+item.data.permalink
             });
           } else if (url.match(/imgur/ig) && !url.match(/\/a\//ig)){
             var imgurId = (/^.+imgur.com\/(\w+)/ig).exec(url)[1];
@@ -45,7 +45,7 @@ $(document).ready(function(){
               id: item.data.id,
               url: 'http://i.imgur.com/'+imgurId+'.gif',
               title: item.data.title,
-              permalink: item.data.permalink
+              permalink: 'http://reddit.com'+item.data.permalink
             });
           }
       });
@@ -60,7 +60,7 @@ $(document).ready(function(){
   function loadGif(gifData){
     if (!gifData) return
     $('#huge').html($('<img/>').attr("src", gifData.url));
-    $('#title').html(gifData.title)
+    $('#title').html('<h1><a href="'+gifData.permalink+'" target="_blank">'+gifData.title+'</a></h1>')
     console.log(gifPos);
     if (gifPos >= gifList.length-5 && !fetching) fetchGifs();
   }

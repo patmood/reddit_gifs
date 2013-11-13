@@ -41,11 +41,15 @@ button {
 }
 #prev { display: inline-block; }
 #next { display: inline-block; }
-#title {
+#title { padding: 5px; }
+#title, #title h1, #title a{
   color: #fff;
   font-size: 36px;
   display: inline-block;
-  padding: 5px;
+  text-decoration: none;
+}
+#title a:hover {
+  color: #e67e22;
 }
 #subreddit {
   margin: 10px;
