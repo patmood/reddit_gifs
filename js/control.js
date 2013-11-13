@@ -40,9 +40,10 @@ $(document).ready(function(){
               permalink: item.data.permalink
             });
           } else if (url.match(/imgur/ig) && !url.match(/\/a\//ig)){
+            var imgurId = (/^.+imgur.com\/(\w+)/ig).exec(url)[1];
             gifList.push({
               id: item.data.id,
-              url: directImgurLink(url),
+              url: 'http://i.imgur.com/'+imgurId+'.gif',
               title: item.data.title,
               permalink: item.data.permalink
             });
@@ -62,14 +63,6 @@ $(document).ready(function(){
     $('#title').html(gifData.title)
     console.log(gifPos);
     if (gifPos >= gifList.length-5 && !fetching) fetchGifs();
-  }
-
-  function directImgurLink(link){
-    console.log("Imgur fix!");
-    console.log("Original:",link);
-    var imgurId = (/^.+imgur.com\/(\w+)/ig).exec(link)[1];
-    console.log("ID:",imgurId);
-    return 'i.imgur.com/'+imgurId+'.gif';
   }
 
   function nextGif(){
