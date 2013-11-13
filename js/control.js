@@ -7,7 +7,7 @@ $(document).ready(function(){
   var gifList = [];
   var gifPos = 0;
   var defaultSource = 'http://www.reddit.com/r/gif/.json?';
-  var fetchReddit = 'gif';
+  var fetchReddit = $('#subreddit').val();
   var fetchLimit = 100;
   var fetchAfter = '';
   var fetching = false;
@@ -15,7 +15,7 @@ $(document).ready(function(){
   fetchGifs();
 
   $('#subreddit').on('change', function(){
-    fetchReddit = $(this).val();
+    fetchReddit = $(this).val().replace(/(\/r\/)|(r\/)|(\/)/ig,'');
   })
 
   function fetchGifs(source){
