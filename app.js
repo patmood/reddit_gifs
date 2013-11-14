@@ -6,6 +6,7 @@ window.HugeGif = Ember.Application.create({
 })
 
 
+// MODELS
 HugeGif.Subreddit = Ember.Object.extend({
   loadedLinks: false,
   title: function(){
@@ -41,7 +42,7 @@ HugeGif.Subreddit = Ember.Object.extend({
   },
 
   findLinkById: function(id){
-    return this.loadedLinks().then(function(links){
+    return this.loadLinks().then(function(links){
       return links.findProperty('id',id);
     })
   }
@@ -63,16 +64,26 @@ HugeGif.Subreddit.reopenClass({
 
 });
 
-
-
-// MODELS
 HugeGif.Link = Ember.Object.extend({
   imageUrl: function() {
-        var url = this.get('url');
-        if (!url) return false;
-        if (url.match(/\.gif$/ig) !== null) return url;
-        return false;
-      }.property('url')
+      var url = this.get('url');
+      if (!url) return false;
+      if (url.match(/\.gif$/ig) !== null) return url;
+      return false;
+    }.property('url'),
+})
+
+// CONTROLLERS
+
+HugeGif.LinkController = Ember.ObjectController.extend({
+  actions: {
+    next: function(){
+      this.transitionToRoute('link', this.get('next'));
+    },
+    prev: function(){
+      this.transitionToRoute('link', this.get('prev'))
+    }
+  }
 })
 
 // ROUTES
