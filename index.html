@@ -6,23 +6,66 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="js/control.js"></script>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div class="overlay">
-  <input id="subreddit" placeholder="/r/gifs">
-  <button id="prev" >Previous</button>
-  <button id="next" >Next</button>
-  <div id="title">Reddit Gifs!</div>
-</div>
 
-<div id="huge">
-  <h1>LOADING...</h1>
-</div>
+  <!-- TEMPLATES -->
+  <script type="text/x-handlebars" id="application">
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="link">
+    <div class="overlay">
+      <input id="subreddit" placeholder="/r/gifs">
+      <button id="prev" >Previous</button>
+      <button id="next" >Next</button>
+      <div id="title"><h1>{{title}}</h1></div>
+    </div>
+
+    <div id="huge">
+      <img {{bindAttr src="imageUrl"}}>
+    </div>
+  </script>
+
+
+  <script type="text/x-handlebars" data-template-name="subreddit">
+    {{outlet}}
+
+      {{#each link in links}}
+        <div>
+            {{#linkTo 'link' link}}{{link.title}}{{/linkTo}}
+            <span>({{link.url}})</span>
+        </div>
+      {{/each}}
+  </script>
+
+  <!-- DEPENDENCIES -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ember.js/1.1.2/ember.min.js"></script>
+
+  <!-- EMBER FILES -->
+  <script src="app.js"></script>
+
+  <!-- REQUIRE JS FILES
+  <script src="js/control.js"></script>
+  <script src="router.js"></script>
+  <script src="helpers/helpers.js"></script>
+  <script src="store.js"></script>
+  <script src="routes/usersRoute.js"></script>
+  <script src="routes/userRoute.js"></script>
+  <script src="routes/userEditRoute.js"></script>
+  <script src="routes/indexRoute.js"></script>
+  <script src="routes/usersCreateRoute.js"></script>
+  <script src="models/user.js"></script>
+  <script src="controllers/usersController.js"></script>
+  <script src="controllers/userController.js"></script>
+  <script src="controllers/userEditController.js"></script>
+  <script src="controllers/usersCreateController.js"></script>
+-->
 
 </body>
 </html>
