@@ -1,7 +1,4 @@
-var defaultSubreddits = [
-  'gifs',
-  'thestopgirl'
-];
+var startingSubreddit = 'gifs';
 
 
 window.HugeGif = Ember.Application.create({
@@ -20,13 +17,23 @@ HugeGif.Subreddit = Ember.Object.extend({
       if (subreddit.get('loadedLinks')){
         p.resolve(subreddit.get('links'));
       } else {
-        p.resolve($.getJSON('http://reddit.com/r/'+ subreddit.get('id') + '/.json?jsonp=?').then(function(response){
+        p.resolve($.getJSON('http://reddit.com/r/'+ subreddit.get('id') + '/.json?limit=10&jsonp=?').then(function(response){
           var links = Em.A();
           response.data.children.forEach(function(child){
             child.data.subreddit = subreddit;
             links.pushObject(HugeGif.Link.create(child.data));
           });
-          subreddit.setProperties({links: links, loadedLinks: true });
+          links.forEach(function(link,i){
+            if ((i+1) < links.length) {
+              links[i].set('next',links[i+1].id);
+            }
+            if ((i-1) >= 0) {
+              links[i].set('prev',links[i-1].id);
+            }
+          });
+          var linkBefore = response.data.before;
+          var linkAfter = response.data.after;
+          subreddit.setProperties({links: links, loadedLinks: true, linkBefore: linkBefore, linkAfter: linkAfter });
           return links;
         }));
       }
@@ -45,16 +52,15 @@ HugeGif.Subreddit.reopenClass({
   list: function(id){
     if (this._list) { return this._list; }
     var list = Em.A();
-    defaultSubreddits.forEach(function(id){
-      list.pushObject(HugeGif.Subreddit.create({id: id}));
-    });
+    list.pushObject(HugeGif.Subreddit.create({id: startingSubreddit}));
 
     this._list = list;
     return list;
   },
   defaultSubreddit: function(){
     return this.list()[0];
-  }
+  },
+
 });
 
 
@@ -69,7 +75,7 @@ HugeGif.Link = Ember.Object.extend({
       }.property('url')
 })
 
-// ROUTESR
+// ROUTES
 HugeGif.Router.map(function() {
   this.resource("subreddit", { path: "/r/:subreddit_id" }, function() {
     this.resource('link', { path: '/:link_id'} );
