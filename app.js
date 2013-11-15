@@ -20,10 +20,15 @@ HugeGif.Subreddit = Ember.Object.extend({
       } else {
         p.resolve($.getJSON('http://reddit.com/r/'+ subreddit.get('id') + '/.json?limit=10&jsonp=?').then(function(response){
           var links = Em.A();
+
+          // Only add link if it's a .gif
           response.data.children.forEach(function(child){
-            child.data.subreddit = subreddit;
-            links.pushObject(HugeGif.Link.create(child.data));
+            if (child.data.url.match(/\.gif$/ig)) {
+              child.data.subreddit = subreddit;
+              links.pushObject(HugeGif.Link.create(child.data));
+            }
           });
+
           links.forEach(function(link,i){
             if ((i+1) < links.length) {
               links[i].set('next',links[i+1].id);
@@ -78,10 +83,14 @@ HugeGif.Link = Ember.Object.extend({
 HugeGif.LinkController = Ember.ObjectController.extend({
   actions: {
     next: function(){
-      this.transitionToRoute('link', this.get('next'));
+      if (this.get('next')) {
+        this.transitionToRoute('link', this.get('next'));
+      }
     },
     prev: function(){
-      this.transitionToRoute('link', this.get('prev'))
+      if (this.get('prev')) {
+        this.transitionToRoute('link', this.get('prev'));
+      }
     }
   }
 })
