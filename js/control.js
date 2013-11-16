@@ -69,7 +69,7 @@ $(document).ready(function(){
     if (gifPos+1 < gifList.length){
       loadGif(gifList[++gifPos])
     } else {
-      return
+      return false;
     }
   }
 
@@ -77,7 +77,7 @@ $(document).ready(function(){
     if (gifPos-1 >= 0){
       loadGif(gifList[--gifPos])
     } else {
-      return
+      return false;
     }
   }
 

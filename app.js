@@ -88,7 +88,6 @@ HugeGif.Link = Ember.Object.extend({
 })
 
 // CONTROLLERS
-
 HugeGif.LinkController = Ember.ObjectController.extend({
   actions: {
     next: function(){
@@ -109,6 +108,7 @@ HugeGif.Router.map(function() {
   this.resource("subreddit", { path: "/r/:subreddit_id" }, function() {
     this.resource('link', { path: '/:link_id'} );
   });
+  this.route("notfound", {path: "/notfound"});
 });
 
 HugeGif.LinkRoute = Ember.Route.extend({
@@ -131,7 +131,11 @@ HugeGif.SubredditRoute = Ember.Route.extend({
   }
 });
 
+
 // HugeGif.ApplicationRoute = Ember.Route.extend({
+// })
+
+// HugeGif.LoadingRoute = Ember.Route.extend({
 // })
 
 HugeGif.IndexRoute = Ember.Route.extend({
