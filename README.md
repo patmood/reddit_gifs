@@ -6,7 +6,8 @@ View gifs from reddit in fullscreen glory
 
 
 To do:
-* move to ember
+* load any subreddit
+* fetch more links when at the end
 * url for subreddit
 * load any imgur id
 * add options for hot, new, top of day/week/month/all time etc

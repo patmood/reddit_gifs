@@ -1,5 +1,5 @@
-var startingSubreddit = 'gifs';
-
+var startingSubreddit = 'gifs',
+    fetchLimit = 10;
 
 window.HugeGif = Ember.Application.create({
   LOG_TRANSITIONS: true
@@ -9,6 +9,7 @@ window.HugeGif = Ember.Application.create({
 // MODELS
 HugeGif.Subreddit = Ember.Object.extend({
   loadedLinks: false,
+  linkAfter: '',
   title: function(){
     return '/r/' + this.get('id');
   }.property('id'),
@@ -18,7 +19,8 @@ HugeGif.Subreddit = Ember.Object.extend({
       if (subreddit.get('loadedLinks')){
         p.resolve(subreddit.get('links'));
       } else {
-        p.resolve($.getJSON('http://reddit.com/r/'+ subreddit.get('id') + '/.json?limit=10&jsonp=?').then(function(response){
+        p.resolve($.getJSON('http://reddit.com/r/'+ subreddit.get('id') + '/.json?after='+subreddit.get('linkAfter')+'&limit='+fetchLimit+'&jsonp=?').then(function(response){
+          console.log('getting links...');
           var links = Em.A();
 
           // Only add link if it's a .gif
@@ -37,9 +39,11 @@ HugeGif.Subreddit = Ember.Object.extend({
               links[i].set('prev',links[i-1].id);
             }
           });
-          var linkBefore = response.data.before;
           var linkAfter = response.data.after;
-          subreddit.setProperties({links: links, loadedLinks: true, linkBefore: linkBefore, linkAfter: linkAfter });
+          subreddit.setProperties({
+            links: links,
+            loadedLinks: true,
+            linkAfter: linkAfter });
           return links;
         }));
       }
@@ -110,7 +114,12 @@ HugeGif.LinkRoute = Ember.Route.extend({
 
 HugeGif.SubredditRoute = Ember.Route.extend({
   model: function(params){
-    return HugeGif.Subreddit.list().findProperty('id', params.subreddit_id);
+    var sub = HugeGif.Subreddit.list().findProperty('id', params.subreddit_id)
+    if (sub){
+      return sub;
+    } else {
+      return HugeGif.Subreddit.create({id: params.subreddit_id});
+    }
   },
   afterModel: function(model){
     return model.loadLinks();
