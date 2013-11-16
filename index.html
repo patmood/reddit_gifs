@@ -22,7 +22,7 @@
       <input id="subreddit" placeholder="/r/gifs">
       <button id="prev" {{action 'prev' prev}}>Previous</button>
       <button id="next" {{action 'next' next}}>Next</button>
-      <div id="title"><h1>{{title}}</h1></div>
+      <div id="title"><h1><a target="_blank" {{bindAttr href="permalink"}}>{{title}}</a></h1></div>
     </div>
 
     <div id="huge">

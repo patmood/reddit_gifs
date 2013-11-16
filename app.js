@@ -38,6 +38,7 @@ HugeGif.Subreddit = Ember.Object.extend({
             if ((i-1) >= 0) {
               links[i].set('prev',links[i-1].id);
             }
+            links[i].set('permalink','http://reddit.com'+link.permalink);
           });
           var linkAfter = response.data.after;
           subreddit.setProperties({

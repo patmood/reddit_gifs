@@ -6,7 +6,6 @@ View gifs from reddit in fullscreen glory
 
 
 To do:
-* load any subreddit
 * fetch more links when at the end
 * url for subreddit
 * load any imgur id
