@@ -6,8 +6,11 @@ View gifs from reddit in fullscreen glory
 
 
 To do:
+* handle non direct imgur links (DONE but needs testing)
+* fix permalink when link created
+* handle no gifs found
+* deal with HTML character codes in titles
 * fetch more links when at the end
-* url for subreddit
 * load any imgur id
 * add options for hot, new, top of day/week/month/all time etc
 * option to load gif before playing animation

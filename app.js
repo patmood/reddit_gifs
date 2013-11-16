@@ -28,6 +28,11 @@ HugeGif.Subreddit = Ember.Object.extend({
             if (child.data.url.match(/\.gif$/ig)) {
               child.data.subreddit = subreddit;
               links.pushObject(HugeGif.Link.create(child.data));
+            } else if (child.data.url.match(/^.+imgur.com\/(\w+$)/ig) && !child.data.url.match(/\/a\/\.imgur\.com/ig)){
+              var imgurId = (/^.+imgur.com\/(\w+$)/ig).exec(child.data.url)[1];
+              child.data.url = 'http://i.imgur.com/'+imgurId+'.gif';
+              // child.data.permalink = 'http://reddit.com'+item.data.permalink;
+              links.pushObject(HugeGif.Link.create(child.data));
             }
           });
 
