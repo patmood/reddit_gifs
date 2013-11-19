@@ -8,7 +8,7 @@ View gifs from reddit in fullscreen glory
 To do:
 * handle non direct imgur links (DONE but needs testing)
 * handle no gifs found
-* deal with HTML character codes in titles
+* deal with HTML character codes in titles (specifically '&')
 * fetch more links when at the end
 * load any imgur id
 * add options for hot, new, top of day/week/month/all time etc
