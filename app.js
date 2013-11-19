@@ -87,6 +87,9 @@ HugeGif.Link = Ember.Object.extend({
     }.property('url'),
 })
 
+HugeGif.Imgur = Ember.Object.extend({});
+
+
 // CONTROLLERS
 HugeGif.LinkController = Ember.ObjectController.extend({
   actions: {
@@ -108,8 +111,8 @@ HugeGif.Router.map(function() {
   this.resource('subreddit', { path: '/r/:subreddit_id' }, function() {
     this.resource('link', { path: '/:link_id'} );
   });
-  this.route('notfound', {path: '/notfound' });
-  this.resource('imgur', { path: '/:imgur_id' });
+  this.route('notfound', { path: '/notfound' });
+  this.resource('imgur', { path: '/:imgur_id' }); // This goes last!
 });
 
 HugeGif.LinkRoute = Ember.Route.extend({
@@ -134,10 +137,30 @@ HugeGif.SubredditRoute = Ember.Route.extend({
 
 HugeGif.ImgurRoute = Ember.Route.extend({
   model: function(params){
-    console.log(params);
-    return params;
+    return HugeGif.Imgur.image(params.imgur_id);
   }
 })
+
+
+HugeGif.Imgur.reopenClass({
+  image: function(imgurId) {
+      return $.ajax({
+        url: 'https://api.imgur.com/3/image/' + imgurId,
+        headers: {
+            'Authorization': 'Client-ID 2b577f722a2e8e9'
+        },
+        type: 'GET',
+        success: function(imgData) {
+          return imgData.data;
+        },
+        error: function(){
+          alert('oh noez!');
+        }
+    }).then(function(response) {
+        return HugeGif.Imgur.create(response.data);
+      });
+  }
+});
 
 
 // HugeGif.ApplicationRoute = Ember.Route.extend({

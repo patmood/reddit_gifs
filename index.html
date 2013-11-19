@@ -46,8 +46,16 @@
     <h1>No Gifs Found :(</h1>
   </script>
 
-  <script type="text/x-handlebars" data-template-name="imgurlink">
-    <h1>Imgur Direct feee</h1>
+  <script type="text/x-handlebars" data-template-name="imgur">
+    {{#if model.title}}
+      <div class="overlay">
+        <div id="title"><h1><a target="_blank" {{bindAttr href="model.title"}}>{{title}}</a></h1></div>
+      </div>
+    {{/if}}
+
+    <div id="huge">
+      <img {{bindAttr src="model.link"}}>
+    </div>
   </script>
 
   <!-- DEPENDENCIES -->
