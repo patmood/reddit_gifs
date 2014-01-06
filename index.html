@@ -18,16 +18,18 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="link">
-    <div class="overlay">
-      <input id="subreddit" placeholder="/r/gifs">
-      <button id="prev" {{action 'prev' prev}}>Previous</button>
-      <button id="next" {{action 'next' next}}>Next</button>
-      <div id="title"><h1><a target="_blank" {{bindAttr href="permalink"}}>{{title}}</a></h1></div>
-    </div>
+    {{#view HugeGif.EventView}}
+      <div class="overlay">
+        <input id="subreddit" placeholder="/r/gif">
+        <button id="prev" {{action 'prev' prev}}>Previous</button>
+        <button id="next" {{action 'next' next}}>Next</button>
+        <div id="title"><h1><a target="_blank" {{bindAttr href="permalink"}}>{{title}}</a></h1></div>
+      </div>
 
-    <div id="huge">
-      <img {{bindAttr src="imageUrl"}}>
-    </div>
+      <div id="huge">
+        <img {{bindAttr src="imageUrl"}}>
+      </div>
+    {{/view}}
   </script>
 
 
@@ -58,6 +60,14 @@
     </div>
   </script>
 
+  <script type="text/x-handlebars" data-template-name="upload">
+    <h2>Upload an Image:</h2>
+    <form {{action upload on="submit"}}>
+      {{view HugeGif.GetImageView name="image" file=image }}
+      <button type="submit">Upload</button>
+    </form>
+  </script>
+
   <!-- DEPENDENCIES -->
   <script src="dependencies/jquery-2.0.3.min.js"></script>
   <script src="dependencies/handlebars-1.0.0.js"></script>
@@ -71,22 +81,6 @@
   <!-- EMBER FILES -->
   <script src="app.js"></script>
 
-  <!-- REQUIRE JS FILES
-  <script src="js/control.js"></script>
-  <script src="router.js"></script>
-  <script src="helpers/helpers.js"></script>
-  <script src="store.js"></script>
-  <script src="routes/usersRoute.js"></script>
-  <script src="routes/userRoute.js"></script>
-  <script src="routes/userEditRoute.js"></script>
-  <script src="routes/indexRoute.js"></script>
-  <script src="routes/usersCreateRoute.js"></script>
-  <script src="models/user.js"></script>
-  <script src="controllers/usersController.js"></script>
-  <script src="controllers/userController.js"></script>
-  <script src="controllers/userEditController.js"></script>
-  <script src="controllers/usersCreateController.js"></script>
--->
 
 </body>
 </html>

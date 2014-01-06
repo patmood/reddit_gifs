@@ -1,5 +1,5 @@
-var startingSubreddit = 'gifs',
-    fetchLimit = 10;
+var startingSubreddit = 'gif',
+    fetchLimit = 100;
 
 window.HugeGif = Ember.Application.create({
   LOG_TRANSITIONS: true
@@ -88,7 +88,7 @@ HugeGif.Link = Ember.Object.extend({
 })
 
 HugeGif.Imgur = Ember.Object.extend({});
-
+HugeGif.Upload = Ember.Object.extend({});
 
 // CONTROLLERS
 HugeGif.LinkController = Ember.ObjectController.extend({
@@ -106,11 +106,39 @@ HugeGif.LinkController = Ember.ObjectController.extend({
   }
 })
 
+HugeGif.UploadController = Ember.Controller.extend({
+  actions: {
+    upload: function(){
+      var file = this.get("image").split(",")[1];
+      var _this = this
+
+      console.log(file)
+
+      console.log('Uploading to imgur...');
+      var fd = new FormData();
+      fd.append('image', file);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://api.imgur.com/3/image.json');
+      xhr.onload = function(){
+        var imgurId = JSON.parse(xhr.responseText).data.id;
+        console.log(imgurId);
+        _this.transitionToRoute('imgur', imgurId);
+      };
+      xhr.setRequestHeader('Authorization', 'Client-ID 2b577f722a2e8e9');
+      xhr.send(fd);
+
+    }
+  }
+
+})
+
 // ROUTES
 HugeGif.Router.map(function() {
   this.resource('subreddit', { path: '/r/:subreddit_id' }, function() {
     this.resource('link', { path: '/:link_id'} );
   });
+  this.route('upload', { path: '/upload' });
   this.route('notfound', { path: '/notfound' });
   this.resource('imgur', { path: '/:imgur_id' }); // This goes last!
 });
@@ -154,7 +182,7 @@ HugeGif.Imgur.reopenClass({
           return imgData.data;
         },
         error: function(){
-          alert('oh noez!');
+          alert('oh noez! Fail!');
         }
     }).then(function(response) {
         return HugeGif.Imgur.create(response.data);
@@ -162,15 +190,47 @@ HugeGif.Imgur.reopenClass({
   }
 });
 
-
-// HugeGif.ApplicationRoute = Ember.Route.extend({
-// })
-
-// HugeGif.LoadingRoute = Ember.Route.extend({
-// })
-
 HugeGif.IndexRoute = Ember.Route.extend({
   redirect: function(){
     this.transitionTo('subreddit', HugeGif.Subreddit.defaultSubreddit());
   }
 });
+
+//VIEWS
+HugeGif.GetImageView = Ember.TextField.extend({
+  tagName: 'input',
+  attributeBindings: ['name'],
+  type: 'file',
+  file: null,
+  change: function (e) {
+      var reader = new FileReader(),
+      _this = this;
+
+      var file = e.target.files[0];
+      if (!file || !file.type.match(/image.gif/)) {
+        alert('Gotta be a GIF');
+        return;
+      }
+
+      reader.onload = function (e) {
+          var fileToUpload = e.srcElement.result;
+          Ember.run(function() {
+              _this.set('file', fileToUpload);
+          });
+      };
+      return reader.readAsDataURL(file);
+  }
+})
+
+HugeGif.EventView = Ember.View.extend({
+  keyDown: function(e){
+    var key = e.which
+
+    if(key === 32) this.controller.send("next"); // space
+    else if (key === 39) this.controller.send("next"); // right
+    else if (key === 37) this.controller.send("prev"); // left
+  },
+  click: function(e){
+    console.log("click",e)
+  }
+})
