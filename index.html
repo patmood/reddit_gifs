@@ -18,18 +18,16 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="link">
-    {{#view HugeGif.EventView}}
-      <div class="overlay">
-        <input id="subreddit" placeholder="/r/gif">
-        <button id="prev" {{action 'prev' prev}}>Previous</button>
-        <button id="next" {{action 'next' next}}>Next</button>
-        <div id="title"><h1><a target="_blank" {{bindAttr href="permalink"}}>{{title}}</a></h1></div>
-      </div>
+    <div class="overlay">
+      <input id="subreddit" placeholder="/r/gif">
+      <button id="prev" {{action 'prev' prev}}>Previous</button>
+      <button id="next" {{action 'next' next}}>Next</button>
+      <div id="title"><h1><a target="_blank" {{bindAttr href="permalink"}}>{{title}}</a></h1></div>
+    </div>
 
-      <div id="huge">
-        <img {{bindAttr src="imageUrl"}}>
-      </div>
-    {{/view}}
+    <div id="huge" {{action "next" on="click"}}>
+      <img {{bindAttr src="imageUrl"}}>
+    </div>
   </script>
 
 

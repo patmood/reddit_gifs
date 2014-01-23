@@ -1,5 +1,5 @@
 var startingSubreddit = 'gif',
-    fetchLimit = 100;
+    fetchLimit = 20;
 
 window.HugeGif = Ember.Application.create({
   LOG_TRANSITIONS: true
@@ -102,7 +102,11 @@ HugeGif.LinkController = Ember.ObjectController.extend({
       if (this.get('prev')) {
         this.transitionToRoute('link', this.get('prev'));
       }
-    }
+    },
+    updateKey: function(keyCode) {
+      // Do what you gotta do
+      this.set('shortcutKey', keyCode);
+  },
   }
 })
 
@@ -222,15 +226,12 @@ HugeGif.GetImageView = Ember.TextField.extend({
   }
 })
 
-HugeGif.EventView = Ember.View.extend({
+HugeGif.LinkView = Ember.View.extend({
   keyDown: function(e){
     var key = e.which
 
-    if(key === 32) this.controller.send("next"); // space
-    else if (key === 39) this.controller.send("next"); // right
-    else if (key === 37) this.controller.send("prev"); // left
-  },
-  click: function(e){
-    console.log("click",e)
+    if(key === 32) console.log("next"); // space
+    else if (key === 39) console.log("next"); // right
+    else if (key === 37) console.log("prev"); // left
   }
 })
